@@ -16,32 +16,24 @@ export function NavBar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      const sections = navItems.map(item => item.href.replace('#', ''));
-      
-      for (const section of sections) {
-        const element = document.getElementById(section);
-        if (element) {
-          const rect = element.getBoundingClientRect();
-          if (rect.top <= 200 && rect.bottom >= 200) {
-            setActiveSection(section);
-            break;
-          }
-        }
-      }
+    const handleSectionChange = (e: Event) => {
+      const customEvent = e as CustomEvent;
+      setActiveSection(customEvent.detail);
     };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener('sectionChange', handleSectionChange);
+    return () => window.removeEventListener('sectionChange', handleSectionChange);
   }, []);
 
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
-    const element = document.getElementById(href.replace('#', ''));
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-      setIsMobileMenuOpen(false);
-    }
+    const sectionName = href.replace('#', '');
+    setActiveSection(sectionName);
+    setIsMobileMenuOpen(false);
+    
+    // Dispatch event to page.tsx to change the slide
+    const event = new CustomEvent('navigateSection', { detail: sectionName });
+    window.dispatchEvent(event);
   };
 
   return (
