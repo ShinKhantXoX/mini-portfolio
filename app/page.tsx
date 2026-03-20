@@ -5,10 +5,11 @@ import { motion } from "motion/react";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { AboutUs } from "@/components/About";
 import { Hero } from "@/components/Hero";
+import { Skills } from "@/components/Skill";
 
 export default function Home() {
   const [activeSection, setActiveSection] = useState(0);
-  const totalSections = 2; // Hero and AboutUs
+  const totalSections = 3; // Hero and AboutUs
 
   const sectionNames = ["home", "about"]; // Maps to index 0, 1
 
@@ -58,6 +59,9 @@ export default function Home() {
         </div>
         <div className="w-screen h-full shrink-0">
           <AboutUs />
+        </div>
+        <div className="w-screen h-full shrink-0">
+          <Skills />
         </div>
       </motion.div>
 
